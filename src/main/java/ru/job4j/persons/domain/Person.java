@@ -1,7 +1,6 @@
 package ru.job4j.persons.domain;
 
 import lombok.*;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

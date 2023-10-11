@@ -12,5 +12,4 @@ public class PersonsApplication {
 		SpringApplication.run(PersonsApplication.class, args);
 		System.out.println("Ready");
 	}
-
 }
