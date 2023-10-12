@@ -1,3 +1,5 @@
+/**
+
 package ru.job4j.persons;
 
 import org.junit.jupiter.api.Test;
@@ -11,3 +13,5 @@ class PersonsApplicationTests {
 	}
 
 }
+ *
+ */
