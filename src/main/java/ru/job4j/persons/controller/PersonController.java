@@ -1,3 +1,5 @@
+/**
+
 package ru.job4j.persons.controller;
 
 import lombok.AllArgsConstructor;
@@ -55,3 +57,5 @@ public class PersonController {
         return ResponseEntity.ok().build();
     }
 }
+
+ */

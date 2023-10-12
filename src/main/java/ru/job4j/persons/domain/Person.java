@@ -1,3 +1,5 @@
+/**
+
 package ru.job4j.persons.domain;
 
 import lombok.*;
@@ -23,3 +25,5 @@ public class Person {
         this.id = id;
     }
 }
+
+ */
