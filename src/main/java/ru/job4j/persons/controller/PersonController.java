@@ -1,61 +1,62 @@
-/**
-
 package ru.job4j.persons.controller;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.persons.domain.Person;
-import ru.job4j.persons.repository.PersonRepository;
+import ru.job4j.persons.service.PersonService;
+
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Optional;
 
+@RequiredArgsConstructor
 @RestController
-@NoArgsConstructor
-@AllArgsConstructor
-@RequestMapping("/person")
+@RequestMapping("/persons")
 public class PersonController {
-    private PersonRepository persons;
 
-    @GetMapping("/")
-    public List<Person> findAll() {
-        return this.persons.findAll();
-    }
+    private final PersonService personService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Person> findById(@PathVariable int id) {
-        var person = this.persons.findById(id);
-        return new ResponseEntity<Person>(
-                person.orElse(new Person()),
-                person.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND
-        );
-    }
 
     @PostMapping("/")
     public ResponseEntity<Person> create(@RequestBody Person person) {
-        return new ResponseEntity<Person>(
-                this.persons.save(person),
-                HttpStatus.CREATED
-        );
+        Optional<Person> result = Optional.ofNullable(personService.create(person));
+        return new ResponseEntity<>(
+                result.orElse(person),
+                result.isPresent() ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Person>> findAll() {
+        return ResponseEntity.ok(personService.getAll());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Person> findById(@PathVariable long id) {
+        return ResponseEntity.ok(personService.getById(id));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
-        this.persons.save(person);
-        return ResponseEntity.ok().build();
+    public boolean update(Person person) {
+        boolean updated = false;
+        try {
+            personService.create(person);
+            updated = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updated;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
-        Person person = new Person();
-        person.setId(id);
-        this.persons.delete(person);
-        return ResponseEntity.ok().build();
+    public boolean deleteById(long id) {
+        boolean deleted = false;
+        try {
+            personService.deleteById(id);
+            deleted = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return deleted;
     }
 }
-
- */
