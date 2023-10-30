@@ -3,16 +3,17 @@ package ru.job4j.persons.service;
 import ru.job4j.persons.domain.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonService {
 
-    Person create(Person person);
+    Optional<Person> create(Person person);
 
     Person getById(Long id);
 
     List<Person> getAll();
 
-    Person update(Person person);
+    void update(Person person);
 
     void deleteById(Long id);
 }

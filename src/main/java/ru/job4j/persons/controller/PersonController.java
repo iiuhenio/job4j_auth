@@ -20,7 +20,7 @@ public class PersonController {
 
     @PostMapping("/")
     public ResponseEntity<Person> create(@RequestBody Person person) {
-        Optional<Person> result = Optional.ofNullable(personService.create(person));
+        Optional<Person> result = personService.create(person);
         return new ResponseEntity<>(
                 result.orElse(person),
                 result.isPresent() ? HttpStatus.CREATED : HttpStatus.CONFLICT);
@@ -36,27 +36,15 @@ public class PersonController {
         return ResponseEntity.ok(personService.getById(id));
     }
 
-    @PutMapping("/")
-    public boolean update(Person person) {
-        boolean updated = false;
-        try {
-            personService.create(person);
-            updated = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return updated;
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody Person person) {
+        personService.update(person);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public boolean deleteById(long id) {
-        boolean deleted = false;
-        try {
-            personService.deleteById(id);
-            deleted = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return deleted;
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable long id) {
+        personService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

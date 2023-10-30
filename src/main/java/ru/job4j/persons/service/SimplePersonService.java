@@ -1,6 +1,5 @@
 package ru.job4j.persons.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -8,6 +7,7 @@ import ru.job4j.persons.domain.Person;
 import ru.job4j.persons.repository.PersonRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -19,9 +19,8 @@ public class SimplePersonService implements PersonService {
     }
 
     @Override
-    public Person create(Person person) {
-        return personRepository.save(person);
-
+    public Optional<Person> create(Person person) {
+            return Optional.of(personRepository.save(person));
     }
 
     @Override
@@ -36,8 +35,8 @@ public class SimplePersonService implements PersonService {
     }
 
     @Override
-    public Person update(Person person) {
-        return personRepository.save(person);
+    public void update(Person person) {
+        personRepository.save(person);
     }
 
     @Override
