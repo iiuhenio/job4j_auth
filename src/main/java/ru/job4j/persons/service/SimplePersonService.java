@@ -9,6 +9,13 @@ import ru.job4j.persons.repository.PersonRepository;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import static java.util.Collections.emptyList;
+
 
 @Service
 public class SimplePersonService implements PersonService {
@@ -51,4 +58,16 @@ public class SimplePersonService implements PersonService {
             }
             return deleted;
         }
+
+    @Override
+    public Optional<Person> findByLogin(String login) {
+        return personRepository.findByLogin(login);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return personRepository.findByLogin(username)
+                .map(person ->  new User(person.getLogin(), person.getPassword(), emptyList()))
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+}
