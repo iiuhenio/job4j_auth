@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.persons.domain.Person;
 import ru.job4j.persons.service.PersonService;
 
@@ -37,14 +38,19 @@ public class PersonController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Person person) {
-        personService.update(person);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Boolean> update(@RequestBody Person person) {
+        if ((this.personService.update(person))) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable long id) {
-        personService.deleteById(id);
-        return ResponseEntity.ok().build();
+        boolean deleted = personService.deleteById(id);
+        if (deleted) {
+            return ResponseEntity.ok().build();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person is not deleted");
     }
 }

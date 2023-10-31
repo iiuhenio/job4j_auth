@@ -35,12 +35,20 @@ public class SimplePersonService implements PersonService {
     }
 
     @Override
-    public void update(Person person) {
+    public Boolean update(Person person) {
         personRepository.save(person);
+        return personRepository.findById(person.getId()).isPresent();
     }
 
     @Override
-    public void deleteById(Long id) {
-        personRepository.deleteById(id);
+    public Boolean deleteById(Long id) {
+            boolean deleted = false;
+            try {
+                personRepository.deleteById(id);
+                deleted = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return deleted;
+        }
     }
-}

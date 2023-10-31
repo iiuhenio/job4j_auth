@@ -13,7 +13,7 @@ public interface PersonService {
 
     List<Person> getAll();
 
-    void update(Person person);
+    Boolean update(Person person);
 
-    void deleteById(Long id);
+    Boolean deleteById(Long id);
 }
