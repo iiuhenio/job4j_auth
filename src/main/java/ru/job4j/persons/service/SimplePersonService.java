@@ -41,23 +41,26 @@ public class SimplePersonService implements PersonService {
         return personRepository.findAll();
     }
 
-    @Override
     public Boolean update(Person person) {
-        personRepository.save(person);
-        return personRepository.findById(person.getId()).isPresent();
+        boolean updated = false;
+        var person1 = personRepository.findById(person.getId());
+        if (person1.isPresent()) {
+            personRepository.save(person);
+            updated = true;
+        }
+        return updated;
     }
 
     @Override
     public Boolean deleteById(Long id) {
-            boolean deleted = false;
-            try {
-                personRepository.deleteById(id);
-                deleted = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return deleted;
+        boolean deleted = false;
+        var person = personRepository.findById(id);
+        if (person.isPresent()) {
+            personRepository.deleteById(id);
+            deleted = true;
         }
+        return deleted;
+    }
 
     @Override
     public Optional<Person> findByLogin(String login) {
