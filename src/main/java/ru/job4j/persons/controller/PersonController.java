@@ -13,13 +13,13 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/persons")
+@RequestMapping("/person")
 public class PersonController {
 
     private final PersonService personService;
 
 
-    @PostMapping("/")
+    @PostMapping("/sign-up")
     public ResponseEntity<Person> create(@RequestBody Person person) {
         Optional<Person> result = personService.create(person);
         return new ResponseEntity<>(
@@ -27,7 +27,7 @@ public class PersonController {
                 result.isPresent() ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Person>> findAll() {
         return ResponseEntity.ok(personService.getAll());
     }

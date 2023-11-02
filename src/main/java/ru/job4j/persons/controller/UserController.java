@@ -6,5 +6,3 @@ import ru.job4j.persons.domain.Person;
 import ru.job4j.persons.repository.PersonRepository;
 
 import java.util.List;
-
-
