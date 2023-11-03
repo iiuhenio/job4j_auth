@@ -3,6 +3,8 @@ package ru.job4j.persons.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.persons.domain.Person;
@@ -21,6 +23,9 @@ public class PersonController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<Person> create(@RequestBody Person person) {
+
+        person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()));
+
         Optional<Person> result = personService.create(person);
         return new ResponseEntity<>(
                 result.orElse(person),
