@@ -32,9 +32,9 @@ public class SimplePersonService implements PersonService {
     }
 
     @Override
-    public Person getById(Long id) {
-        return personRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public Optional<Person> getById(Long id) {
+        return Optional.ofNullable(personRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
     @Override
