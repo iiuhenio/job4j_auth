@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.persons.domain.Person;
@@ -29,6 +30,7 @@ public class PersonController {
     private final PersonService personService;
 
     private final ObjectMapper objectMapper;
+    private final PasswordEncoder encoder;
 
 
     @PostMapping("/sign-up")
@@ -42,7 +44,7 @@ public class PersonController {
             throw new IllegalArgumentException("Invalid password. Password length must be more than 5 characters.");
         }
 
-        person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()));
+        person.setPassword(encoder.encode(person.getPassword()));
 
         Optional<Person> result = personService.create(person);
         return new ResponseEntity<>(
