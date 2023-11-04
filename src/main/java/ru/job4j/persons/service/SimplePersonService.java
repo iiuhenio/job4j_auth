@@ -33,8 +33,7 @@ public class SimplePersonService implements PersonService {
 
     @Override
     public Optional<Person> getById(Long id) {
-        return Optional.ofNullable(personRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        return personRepository.findById(id);
     }
 
     @Override
