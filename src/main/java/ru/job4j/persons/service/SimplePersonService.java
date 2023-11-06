@@ -19,7 +19,6 @@ import static java.util.Collections.emptyList;
 
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
 public class SimplePersonService implements PersonService {
 
