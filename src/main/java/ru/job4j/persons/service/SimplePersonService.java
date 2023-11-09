@@ -30,9 +30,15 @@ public class SimplePersonService implements PersonService {
             return Optional.of(personRepository.save(person));
     }
 
+
     @Override
-    public Optional<Person> getById(Long id) {
-        return personRepository.findById(id);
+    public Boolean getById(Long id) {
+        boolean rsl = false;
+        Optional<Person> person = personRepository.findById(id);
+        if (person.isPresent()) {
+            rsl = true;
+        }
+        return rsl;
     }
 
     @Override

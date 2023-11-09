@@ -10,7 +10,7 @@ public interface PersonService extends UserDetailsService {
 
     Optional<Person> create(Person person);
 
-    Optional<Person> getById(Long id);
+    Boolean getById(Long id);
 
     List<Person> getAll();
 

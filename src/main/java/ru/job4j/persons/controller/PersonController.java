@@ -33,10 +33,8 @@ import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 public class PersonController {
 
     private final PersonService personService;
-
     private final ObjectMapper objectMapper;
     private final PasswordEncoder encoder;
-
 
     @PostMapping("/sign-up")
     public ResponseEntity<Person> create(@RequestBody Person person) {
@@ -63,10 +61,11 @@ public class PersonController {
     }
 
     @GetMapping("{id}")
-    public Person findById(@PathVariable long id) {
-        return personService.getById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Not found"));
+    public ResponseEntity<Person> findById(@PathVariable long id) {
+        if ((this.personService.getById(id))) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping
@@ -88,7 +87,9 @@ public class PersonController {
 
     @GetMapping("/example1")
     public ResponseEntity<?> example1() {
-        return ResponseEntity.ok("Example1");
+
+        //return ResponseEntity.ok("Example1");
+        return new ResponseEntity<>("Hello World!", HttpStatus.OK);
     }
 
     @GetMapping("/example2")
