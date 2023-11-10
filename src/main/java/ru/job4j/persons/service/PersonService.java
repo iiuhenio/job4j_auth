@@ -2,6 +2,7 @@ package ru.job4j.persons.service;
 
 import ru.job4j.persons.domain.Person;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import ru.job4j.persons.dto.PersonDTO;
 
 import java.util.List;
 import java.util.Optional;

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.persons.domain.Person;
+import ru.job4j.persons.dto.PersonDTO;
 import ru.job4j.persons.repository.PersonRepository;
 
 import java.util.List;
@@ -66,6 +67,7 @@ public class SimplePersonService implements PersonService {
     public Optional<Person> findByLogin(String login) {
         return personRepository.findByLogin(login);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

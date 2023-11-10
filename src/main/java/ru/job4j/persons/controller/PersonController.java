@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.persons.domain.Person;
+import ru.job4j.persons.dto.PersonDTO;
 import ru.job4j.persons.service.PersonService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,17 @@ public class PersonController {
     @PutMapping
     public ResponseEntity<Boolean> update(@RequestBody Person person) {
         if ((this.personService.update(person))) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Boolean> patchUpdate(@RequestBody PersonDTO personDTO) {
+        Person person = new Person();
+        person.setLogin(personDTO.getLogin());
+        person.setPassword(personDTO.getPassword());
+        if ((personService.update(person))) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
