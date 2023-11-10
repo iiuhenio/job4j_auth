@@ -70,7 +70,7 @@ public class PersonController {
                 HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping("/")
     public ResponseEntity<Boolean> update(@RequestBody Person person) {
         if ((this.personService.update(person))) {
             return ResponseEntity.ok().build();
@@ -78,7 +78,7 @@ public class PersonController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping
+    @PutMapping("/patchUpdate")
     public ResponseEntity<Boolean> patchUpdate(@RequestBody PersonDTO personDTO) {
         Person person = new Person();
         person.setLogin(personDTO.getLogin());
