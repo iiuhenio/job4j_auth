@@ -32,13 +32,8 @@ public class SimplePersonService implements PersonService {
 
 
     @Override
-    public Boolean getById(Long id) {
-        boolean rsl = false;
-        Optional<Person> person = personRepository.findById(id);
-        if (person.isPresent()) {
-            rsl = true;
-        }
-        return rsl;
+    public Optional<Person> getById(Long id) {
+        return personRepository.findById(id);
     }
 
     @Override
