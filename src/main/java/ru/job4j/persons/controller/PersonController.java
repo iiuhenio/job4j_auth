@@ -78,11 +78,11 @@ public class PersonController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/patchUpdate")
+    @PatchMapping("/patchUpdate")
     public ResponseEntity<Boolean> patchUpdate(@RequestBody PersonDTO personDTO) {
         Person person = new Person();
-        person.setLogin(personDTO.getLogin());
-        person.setPassword(personDTO.getPassword());
+        person.setId(personDTO.getId());
+        person.setPassword(encoder.encode(personDTO.getPassword()));
         if ((personService.update(person))) {
             return ResponseEntity.ok().build();
         }
