@@ -18,6 +18,7 @@ import ru.job4j.persons.service.PersonService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,7 +39,7 @@ public class PersonController {
     private final PasswordEncoder encoder;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Person> create(@RequestBody Person person) {
+    public ResponseEntity<Person> create(@Valid @RequestBody Person person) {
 
         if (person.getLogin() == null || person.getPassword() == null) {
             throw new NullPointerException("Login and password can't be empty");
@@ -62,7 +63,7 @@ public class PersonController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Person> findById(@PathVariable long id) {
+    public ResponseEntity<Person> findById(@Valid @PathVariable long id) {
         var person = personService.getById(id);
         return new ResponseEntity<>(
                 person.orElseThrow(() -> new ResponseStatusException(
@@ -71,7 +72,7 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Boolean> update(@RequestBody Person person) {
+    public ResponseEntity<Boolean> update(@Valid @RequestBody Person person) {
         if ((this.personService.update(person))) {
             return ResponseEntity.ok().build();
         }
@@ -79,7 +80,7 @@ public class PersonController {
     }
 
     @PatchMapping("/patchUpdate")
-    public ResponseEntity<Boolean> patchUpdate(@RequestBody PersonDTO personDTO) {
+    public ResponseEntity<Boolean> patchUpdate(@Valid @RequestBody PersonDTO personDTO) {
         Person person = new Person();
         person.setId(personDTO.getId());
         person.setPassword(encoder.encode(personDTO.getPassword()));
@@ -90,7 +91,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable long id) {
+    public ResponseEntity<Void> deleteById(@Valid @PathVariable long id) {
         boolean deleted = personService.deleteById(id);
         if (deleted) {
             return ResponseEntity.ok().build();
