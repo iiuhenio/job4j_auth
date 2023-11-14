@@ -24,6 +24,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private PersonService userDetailsService;
     private PasswordEncoder passwordEncoder;
 
+    public WebSecurity() {
+
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
