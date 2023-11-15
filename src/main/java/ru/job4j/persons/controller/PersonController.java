@@ -10,11 +10,13 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.MultiValueMapAdapter;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.persons.domain.Person;
 import ru.job4j.persons.dto.PersonDTO;
 import ru.job4j.persons.service.PersonService;
+import ru.job4j.persons.validation.Operation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +41,7 @@ public class PersonController {
     private final PasswordEncoder encoder;
 
     @PostMapping("/sign-up")
+    @Validated(Operation.OnCreate.class)
     public ResponseEntity<Person> create(@Valid @RequestBody Person person) {
 
         if (person.getLogin() == null || person.getPassword() == null) {
@@ -72,6 +75,7 @@ public class PersonController {
     }
 
     @PutMapping("/")
+    @Validated(Operation.OnUpdate.class)
     public ResponseEntity<Boolean> update(@Valid @RequestBody Person person) {
         if ((this.personService.update(person))) {
             return ResponseEntity.ok().build();
@@ -80,6 +84,7 @@ public class PersonController {
     }
 
     @PatchMapping("/patchUpdate")
+    @Validated(Operation.OnUpdate.class)
     public ResponseEntity<Boolean> patchUpdate(@Valid @RequestBody PersonDTO personDTO) {
         Person person = new Person();
         person.setId(personDTO.getId());
@@ -91,6 +96,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
+    @Validated(Operation.OnDelete.class)
     public ResponseEntity<Void> deleteById(@Valid @PathVariable long id) {
         boolean deleted = personService.deleteById(id);
         if (deleted) {
