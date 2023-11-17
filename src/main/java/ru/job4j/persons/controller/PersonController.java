@@ -8,11 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 import ru.job4j.persons.domain.Person;
 import ru.job4j.persons.dto.PersonDTO;
 import ru.job4j.persons.service.PersonService;
@@ -52,6 +54,10 @@ public class PersonController {
             throw new IllegalArgumentException("Invalid password. Password length must be more than 5 characters.");
         }
 
+        if (encoder == null) {
+            throw new IllegalArgumentException("passwordEncoder cannot be null");
+        }
+
         person.setPassword(encoder.encode(person.getPassword()));
 
         Optional<Person> result = personService.create(person);
@@ -88,6 +94,11 @@ public class PersonController {
     public ResponseEntity<Boolean> patchUpdate(@Valid @RequestBody PersonDTO personDTO) {
         Person person = new Person();
         person.setId(personDTO.getId());
+
+        if (encoder == null) {
+            throw new IllegalArgumentException("passwordEncoder cannot be null");
+        }
+
         person.setPassword(encoder.encode(personDTO.getPassword()));
         if ((personService.update(person))) {
             return ResponseEntity.ok().build();

@@ -27,6 +27,7 @@ public class Person {
     private String login;
 
     @NotBlank(message = "Password must be not empty")
+    @NotNull
     private String password;
 
     public void setId(long id) {
