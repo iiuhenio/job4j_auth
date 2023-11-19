@@ -95,10 +95,6 @@ public class PersonController {
         Person person = new Person();
         person.setId(personDTO.getId());
 
-        if (encoder == null) {
-            throw new IllegalArgumentException("passwordEncoder cannot be null");
-        }
-
         person.setPassword(encoder.encode(personDTO.getPassword()));
         if ((personService.update(person))) {
             return ResponseEntity.ok().build();
